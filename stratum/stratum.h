@@ -90,6 +90,8 @@ extern bool g_stratum_renting;
 extern bool g_stratum_segwit;
 extern int g_limit_txs_per_block;
 
+extern bool g_handle_haproxy_ips;
+
 extern bool g_debuglog_client;
 extern bool g_debuglog_hash;
 extern bool g_debuglog_socket;
