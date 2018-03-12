@@ -308,7 +308,7 @@ bool client_update_block(YAAMP_CLIENT *client, json_value *json_params)
 	if (g_debuglog_client) {
 		debuglog("notify: new %s block %s\n", coind->symbol, hash);
 	}
-	
+
 	snprintf(coind->lastnotifyhash, 161, "%s", hash);
 
 	coind->newblock = true;
@@ -318,10 +318,7 @@ bool client_update_block(YAAMP_CLIENT *client, json_value *json_params)
 		usleep(300*YAAMP_MS);
 	}
 
-	bool confirmed = block_confirm(coind->id, hash);
-	if (!confirmed) {
-		debuglog("notify: unable to confirm %s block %s\n", coind->symbol, hash);
-	}
+	block_confirm(coind->id, hash);
 
 	coind_create_job(coind);
 	object_unlock(coind);
