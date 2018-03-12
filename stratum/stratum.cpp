@@ -39,6 +39,8 @@ bool g_stratum_segwit = false;
 
 int g_limit_txs_per_block = 0;
 
+bool g_handle_haproxy_ips = false;
+
 bool g_debuglog_client;
 bool g_debuglog_hash;
 bool g_debuglog_socket;
@@ -245,7 +247,9 @@ int main(int argc, char **argv)
 	g_stratum_max_ttf = iniparser_getint(ini, "STRATUM:max_ttf", 0x70000000);
 	g_stratum_reconnect = iniparser_getint(ini, "STRATUM:reconnect", true);
 	g_stratum_renting = iniparser_getint(ini, "STRATUM:renting", true);
+	g_handle_haproxy_ips = iniparser_getint(ini, "STRATUM:haproxy_ips", g_handle_haproxy_ips);
 
+	g_max_shares = iniparser_getint(ini, "STRATUM:max_shares", g_max_shares);
 	g_limit_txs_per_block = iniparser_getint(ini, "STRATUM:max_txs_per_block", 0);
 
 	g_debuglog_client = iniparser_getint(ini, "DEBUGLOG:client", false);
