@@ -2,15 +2,15 @@
 As of march, 2018 this fork is **100% compatible** with *"tpruvot's yiimp"*.
 
 
-That means, if you don't want to use all changes, that I made, you can fork from *"tpruvot"*<br/>
+That means, if you don't want to use all changes, that I made, you can fork from [*"tpruvot"*](https://github.com/tpruvot/yiimp/tree/next)<br/>
 and apply only the changes from my corresponding branches per pull request.
 
 
 Or you can just use one of my branches with the changes you want<br/>
-because they are are *"up-to-date"* with *"tpruvot's"* commits.
+because they are are *"up-to-date"* with [*"tpruvot's"*](https://github.com/tpruvot/yiimp/tree/next) commits.
 
 
-If you want the *"full-package"*, use this branch *("AllBranchesMerged")* as your default/master.
+If you want the *"full-package"*, use this branch [*("AllBranchesMerged")*](https://github.com/Revasz/yiimp/tree/AllBranchesMerged) as your default/master.
 
 
 This fork is a *"work-in-progress"* project and can, but doesn't have to, contain untested code from time to time.<br/>
@@ -64,17 +64,6 @@ _____
 
 **Forked from:**
 https://github.com/Infernoman/yiimp/tree/patch-5
-
-_____
-
-
-	Add:
-
-		Travis-ci configuration for build checks.
-
-		Changed files:
-				"README.md"
-				".travis.yml"
 
 
 _____
@@ -203,7 +192,17 @@ _____
 		Changed files:
 				"web/yaamp/core/functions/yaamp.php"
 
+_____
 
+
+	Add/Minor change:
+
+		Travis-ci configuration for build checks.
+
+		Changed files:
+				"README.md"
+				".travis.yml"
+				
 _____
 
 
