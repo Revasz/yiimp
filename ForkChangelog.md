@@ -22,7 +22,7 @@ _____
 
 **Changes:**
 
-Fix:
+	Fix:
 
 		Payments: Prevent 9 decimals on failed payments.
 
@@ -37,7 +37,7 @@ https://github.com/AltMinerNet/yiimp/tree/AltMinerNet-patch-failed-payments
 _____
 
 
-Fix:
+	Fix:
 
 		Fixed an issue where the "AverageIncrement" function could return 80%
 		of the actual value when the function receives a 0 result from a market.
@@ -52,7 +52,7 @@ https://github.com/Jaerin/yiimp
 _____
 
 
-Fix:
+	Fix:
 
 		Late Transactions.
 		All coins including ones with sell on bid shouldn't send to exchanges with late transactions.
@@ -68,7 +68,7 @@ https://github.com/Infernoman/yiimp/tree/patch-5
 _____
 
 
-Add:
+	Add:
 
 		Travis-ci configuration for build checks.
 
@@ -80,7 +80,7 @@ Add:
 _____
 
 
-Add:
+	Add:
 
 		Stratum: optional alert when stratum starts/restarts.
 
@@ -95,7 +95,7 @@ https://github.com/crackfoo/yiimp/tree/patch-2
 _____
 	
 	
-Add:
+	Add:
 
 		Per user fees.
 
@@ -105,16 +105,16 @@ Add:
 				"web/yaamp/core/functions/yaamp.php"
 
 
+**Additional changes:** [PR #13](https://github.com/Revasz/yiimp/pull/13/commits/8fba1184f74af8db4f6b030830d000f47ae4c195)
+
 **Forked from:**
 https://github.com/Tristian/yiimp/tree/user-fees
 
 
-Fixed with [PR #13](https://github.com/Revasz/yiimp/pull/13/commits/8fba1184f74af8db4f6b030830d000f47ae4c195)
-
 _____
 	
 	
-Enhancement:
+	Enhancement:
 
 		Stats: a little refactoring, code style and fix for showing empty graphs.
 
@@ -137,7 +137,7 @@ https://github.com/AlmazDelDiablo/yiimp/tree/fix_graphs
 _____
 	
 	
-Enhancement:
+	Enhancement:
 
 		Renting: html 4 to 5 + redirection fix + display only algorithm with coins +
 		"YAAMP_RENTING_MIN_BALANCE" in "serverconfig.php".
@@ -163,7 +163,7 @@ https://github.com/phm87/yiimp/tree/phm87-renting-patch-1
 _____
 	
 	
-Minor change:
+	Minor change:
 		
 		Reserved balances.
 
@@ -179,7 +179,7 @@ https://github.com/Infernoman/yiimp/tree/patch-1
 _____
 	
 	
-Minor change:
+	Minor change:
 
 		Stratum: sync changes from "json-parser", prevent delete on "NULL" share.
 
@@ -196,7 +196,7 @@ https://github.com/AltMinerNet/yiimp/tree/tuning
 _____
 	
 	
-Minor change:
+	Minor change:
 
 		Order algorithms alphabetical in "yaamp.php"
 
