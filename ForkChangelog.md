@@ -2,7 +2,7 @@
 As of march, 2018 this fork is **100% compatible** with [*"tpruvot's yiimp"*](https://github.com/tpruvot/yiimp/tree/next).
 
 
-That means, if you don't want to use all changes, that I made, you can fork from [*"tpruvot"*](https://github.com/tpruvot/yiimp/tree/next)<br/>
+This means, if you don't want to use all changes, that I made, you can fork from [*"tpruvot"*](https://github.com/tpruvot/yiimp/tree/next)<br/>
 and apply only the changes from my corresponding branches per pull request.
 
 
