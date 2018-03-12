@@ -67,7 +67,6 @@ public:
 	bool usememorypool;
 	bool hasmasternodes;
 	bool oldmasternodes;
-	bool noblocknotify;
 	bool multialgos; // pow_hash field (or mined_hash)
 
 	bool usesegwit;

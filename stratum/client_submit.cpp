@@ -277,13 +277,11 @@ static void client_do_submit(YAAMP_CLIENT *client, YAAMP_JOB *job, YAAMP_JOB_VAL
 				target_to_diff(coin_target), target_to_diff(hash_int),
 				hash1, submitvalues->hash_be, templ->has_segwit_txs);
 
-			if(coind->noblocknotify) {
-				// DCR go wallet doesnt handle blocknotify= config (yet)
-				// required to store the user id and the user diff
+			if(!strcmp("DCR", coind->rpcencoding)) {
+				// delay between dcrd and dcrwallet
 				sleep(1);
-				block_confirm(coind->id, submitvalues->hash_be);
 			}
-			
+
 			if(!strcmp(coind->lastnotifyhash,submitvalues->hash_be)) {
 				block_confirm(coind->id, submitvalues->hash_be);
 			}
