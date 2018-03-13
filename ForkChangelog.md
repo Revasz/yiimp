@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/Revasz/yiimp.svg?branch=AllBranchesMerged)](https://travis-ci.org/Revasz/yiimp)
 
 As of march, 2018 this fork is **100% compatible** with [*"tpruvot's yiimp"*](https://github.com/tpruvot/yiimp/tree/next).
 
@@ -219,4 +220,3 @@ _____
 
 
 ***Revasz,* 2018**
-
