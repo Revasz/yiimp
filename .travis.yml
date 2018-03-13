@@ -1,0 +1,20 @@
+os:
+    - linux
+
+dist:
+    - trusty
+
+language:
+    - cpp
+
+sudo:
+    - true
+
+branches:
+    only:
+        - AllBranchesMerged
+
+script:
+    - (cd blocknotify && make)
+    - (cd stratum/iniparser && make)
+    - (cd stratum && make)
