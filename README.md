@@ -1,222 +1,181 @@
+[![Build Status](https://travis-ci.org/Revasz/yiimp.svg?branch=AllBranchesMerged)](https://travis-ci.org/Revasz/yiimp)
 
-As of march, 2018 this fork is **100% compatible** with [*"tpruvot's yiimp"*](https://github.com/tpruvot/yiimp/tree/next).
+***"yiimp"*** - crypto-mining-pool-framework.<br/>
+Forked from [*"yaamp"*](https://github.com/globalzon/yaamp) and based on the [*"yii-framework"*](http://www.yiiframework.com/).
 
-
-That means, if you don't want to use all changes, that I made, you can fork from [*"tpruvot"*](https://github.com/tpruvot/yiimp/tree/next)<br/>
-and apply only the changes from my corresponding branches per pull request.
-
-
-Or you can just use one of my branches with the changes you want<br/>
-because they are are *"up-to-date"* with [*"tpruvot's"*](https://github.com/tpruvot/yiimp/tree/next) commits.
-
-
-If you want the *"full-package"*, use this branch [*("AllBranchesMerged")*](https://github.com/Revasz/yiimp/tree/AllBranchesMerged) as your default/master.
-
-
-This fork is a *"work-in-progress"* project and can, but doesn't have to, contain untested code from time to time.<br/>
-Use with caution.
-
-
+Originally developed by [*"globalzon"*](https://github.com/globalzon/yaamp), now maintained and further enhanced by [*"tpruvot"*](https://github.com/tpruvot/yiimp/tree/next)<br/>and various users from [*"GitHub"*](https://github.com/).
 _____
 
+**Required:**
 
-**Changes:**
-
-	Fix:
-
-		Payments: Prevent 9 decimals on failed payments.
-
-		Changed files:
-				"web/yaamp/core/backend/payment.php"
-
-
-**Forked from:**
-https://github.com/AltMinerNet/yiimp/tree/AltMinerNet-patch-failed-payments
-
-
+	"Linux", "MySQL/MariaDB", "php7.0+", "Memcached", a web-server ("Lighttpd" or "Nginx" recommended).
 _____
 
+**Basic configuration for *"Nginx"*:**
 
-	Fix:
+	location / {
+		try_files $uri @rewrite;
+	}
 
-		Fixed an issue where the "AverageIncrement" function could return 80%
-		of the actual value when the function receives a 0 result from a market.
+	location @rewrite {
+		rewrite ^/(.*)$ /index.php?r=$1;
+	}
 
-		Changed files:
-				"web/yaamp/core/backend/markets.php"
-
-
-**Forked from:**
-https://github.com/Jaerin/yiimp
-
+	location ~ \.php$ {
+		fastcgi_pass unix:/var/run/php7.0-fpm.sock;
+		fastcgi_index index.php;
+		include fastcgi_params;
+	}
 _____
 
+**If you use *"Apache"*, it should look something like this. (Already set in "web/.htaccess"):**
 
-	Fix:
+	RewriteEngine on
 
-		Late Transactions.
-		All coins including ones with sell on bid shouldn't send to exchanges with late transactions.
-		Update "lastsent" after a valid transaction not before.
-
-		Changed files:
-				"web/yaamp/core/backend/sell.php"
-
-
-**Forked from:**
-https://github.com/Infernoman/yiimp/tree/patch-5
-
-
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteRule ^(.*) index.php?r=$1 [QSA]
 _____
 
+**If you use *"Lighttpd"*, use the following, basic, configuration:**
 
-	Add:
+	$HTTP["host"] =~ "YourServerName" {
+	        server.document-root = "/var/web"
+	        url.rewrite-if-not-file = (
+			"^(.*)/([0-9]+)$" => "index.php?r=$1&id=$2",
+			"^(.*)\?(.*)" => "index.php?r=$1&$2",
+	                "^(.*)" => "index.php?r=$1",
+	                "." => "index.php"
+	        )
 
-		Stratum: optional alert when stratum starts/restarts.
-
-		Changed files:
-				stratum/config/run.sh"
-
-
-**Forked from:**
-https://github.com/crackfoo/yiimp/tree/patch-2
-
-
+		url.access-deny = ( "~", ".dat", ".log" )
+	}
 _____
-	
-	
-	Add:
 
-		Per user fees.
+For the database, import the initial dump present in the *"sql/"* folder.
 
-		Changed files:  
-				"web/serverconfig.sample.php"
-				"web/yaamp/core/backend/blocks.php"
-				"web/yaamp/core/functions/yaamp.php"
+Then, apply the migration scripts to be in sync with the current git, they are sorted by date of change.
 
+Your database need at least 2 users, one for the web site (*"php7.0+"*)<br/>
+and one for the *"stratum"* connections.<br/>
+(password set in *"config/algo.conf"*)
 
-**Additional changes:** [PR #13](https://github.com/Revasz/yiimp/pull/13/commits/8fba1184f74af8db4f6b030830d000f47ae4c195)
+The recommended install folder for the stratum engine is *"/var/stratum."*<br/>
+Copy all the *".conf"* files, *"run.sh"*, the *"stratum"* binary<br/>
+and the *"blocknotify"* binary to this folder.
 
-**Forked from:**
-https://github.com/Tristian/yiimp/tree/user-fees
-
-
+Some scripts are expecting the web folder to be *"/var/web"*.<br/>
+You can use directory *"symlinks"*.
 _____
-	
-	
-	Enhancement:
 
-		Stats: a little refactoring, code style and fix for showing empty graphs.
+**Add your exchange *"API"* public and secret keys in these two separated files:**
 
-		Changed files:
-				"web/yaamp/modules/stats/graph_results_1.php"
-				"web/yaamp/modules/stats/graph_results_2.php"
-				"web/yaamp/modules/stats/graph_results_3.php"
-				"web/yaamp/modules/stats/graph_results_4.php"
-				"web/yaamp/modules/stats/graph_results_5.php"
-				"web/yaamp/modules/stats/graph_results_6.php"
-				"web/yaamp/modules/stats/graph_results_7.php"
-				"web/yaamp/modules/stats/graph_results_8.php"
-				"web/yaamp/modules/stats/graph_results_9.php"
+	"/etc/yiimp/keys.php" - Fixed path in code.
+	"web/serverconfig.php" - Use sample as basic configuration.
 
+You can find sample configuration files in<br/>
+*"web/serverconfig.sample.php"*<br/>
+and<br/>
+*"web/keys.sample.php"*.
 
-**Forked from:**
-https://github.com/AlmazDelDiablo/yiimp/tree/fix_graphs
-
-
+This web application includes some command line tools, add *"bin/"* folder to your *"PATH"*<br/>
+and type *"yiimp"* to list them, *"yiimp checkup"* can help to test your initial setup.<br/>
+Future scripts and maybe the *"cron"* jobs will then use this *"yiic"* interface.
 _____
-	
-	
-	Enhancement:
 
-		Renting: html 4 to 5 + redirection fix + display only algorithm with coins +
-		"YAAMP_RENTING_MIN_BALANCE" in "serverconfig.php".
+**You need at least three backend shells (in *"screen"*) running these scripts:**
 
-		Changed files:
-				"web/serverconfig.sample.php"
-				"web/yaamp/defaultconfig.php"
-				"web/yaamp/modules/renting/RentingController.php"
-				"web/yaamp/modules/renting/admin.php"
-				"web/yaamp/modules/renting/all_orders_results.php"
-				"web/yaamp/modules/renting/balance_results.php"
-				"web/yaamp/modules/renting/index.php"
-				"web/yaamp/modules/renting/login.php"
-				"web/yaamp/modules/renting/orders_results.php"
-				"web/yaamp/modules/renting/settings.php"
-				"web/yaamp/modules/renting/status_results.php"
-
-
-**Forked from:**
-https://github.com/phm87/yiimp/tree/phm87-renting-patch-1
-
-
+	"web/main.sh"
+	"web/loop2.sh"
+	"web/block.sh"
 _____
+
+**Start one *"stratum"* per algorithm using the *"run.sh2"* script with the algorithm as parameter.<br/>
+For example, for *"x11"*:**
+
+	"run.sh x11"
+
+Edit each *".conf"* file with proper values.
+
+Look at *"rc.local"*, it starts all three backend shells and all *"stratum"* processes.<br/>
+Copy it to the *"/etc"* folder so that all *"screen-shells"* are started on (re)boot.
+_____
+
+**All your *"coin's"* configuration files need to *"blocknotify"*<br/>
+their corresponding *"stratum"* using something like this:**
+
+	blocknotify=blocknotify yaamp.com:port coinid %s
+
+On your, new *"yiimp"*, website, go to *"http://yourserver.any/site/adminRights"* to login as administrator.<br/>
+You have to change it to something different in the code (*"web/yaamp/modules/site/SiteController.php"*).<br/>
+A real *"administrator"* login may be added later, but you can setup a password authentication with your web server.
+_____
+
+**Sample for *"Lighttpd"*:**
+
+	htpasswd -c /etc/yiimp/admin.htpasswd <adminuser>
+_____
+
+**and in the *"Lighttpd"* configuration file:**
+
+	# Admin access
+	$HTTP["url"] =~ "^/site/adminRights" {
+	        auth.backend = "htpasswd"
+	        auth.backend.htpasswd.userfile = "/etc/yiimp/admin.htpasswd"
+	        auth.require = (
+	                "/" => (
+	                        "method" => "basic",
+	                        "realm" => "Yiimp Administration",
+	                        "require" => "valid-user"
+	                )
+	        )
+	}
+_____
+
+Finally, remove the *"IP-filter-check"* in *"/var/web/yaamp/modules/site/SiteController.php"*.<br/>
+
+There are logs generated in the *"/var/stratum"* folder and *"/var/log/stratum/debug.log"* for the *"php7.0+"* log.
+_____
+
+**CREDITS:**
+
+Thanks to [*"globalzon"*](https://github.com/globalzon) for the release of the [*"yaamp-sourcecode"*](https://github.com/globalzon/yaamp).<br/>
+
+Thanks to [*"tpruvot"*](https://github.com/tpruvot) for developing and maintaining the [*"yiimp-repository"*](https://github.com/tpruvot/yiimp).<br/>
+
+For my *"fork"*, I have used some code, that I found useful, from the following users/repositories:<br/>
+(In no particular order)
 	
-	
-	Minor change:
+https://github.com/crackfoo/yiimp
 		
-		Reserved balances.
+https://github.com/Tristian/yiimp
+		
+https://github.com/AlmazDelDiablo/yiimp
+		
+https://github.com/Infernoman/yiimp
+		
+https://github.com/AltMinerNet/yiimp
+		
+https://github.com/Jaerin/yiimp
+		
+https://github.com/fastman/yiimp
+		
+https://github.com/phm87/yiimp
+		
+So, thanks to them too.
 
-		Changed files:
+You can support this project by donating to [*"tpruvot"*](https://github.com/tpruvot):
 
-				web/yaamp/core/backend/sell.php"
-
-
-**Forked from:**
-https://github.com/Infernoman/yiimp/tree/patch-1
-
-
-_____
+	BTC: 1Auhps1mHZQpoX4mCcVL8odU81VakZQ6dR
 	
-	
-	Minor change:
-
-		Stratum: sync changes from "json-parser", prevent delete on "NULL" share.
-
-		Changed files:
-				"stratum/json.cpp"
-				"stratum/json.h"
-				"stratum/share.h"
-
-
-**Forked from:**
-https://github.com/AltMinerNet/yiimp/tree/tuning
-
-
-_____
-	
-	
-	Minor change:
-
-		Order algorithms alphabetical in "yaamp.php"
-
-		Changed files:
-				"web/yaamp/core/functions/yaamp.php"
-
-_____
-
-
-	Minor change/Add:
-
-		Travis-ci configuration for build checks.
-
-		Changed files:
-				"README.md"
-				".travis.yml"
-				
-_____
-
-
-**Donations are welcome & appreciated.**
-
+and/or [*"Revasz"*](https://github.com/Revasz) (That's me.)
 
 	BTC: 1i6yhynkkaDN2Y1RiNoZRxcQkEELdePUV
-
+ 
 	ETH: 0x222eD19EAA80eE530B55b3a8394cF841DFb41Af6
 
 	XMR: 4AbuFAvg6wUKxH4uZafgcyJuUkksxiZBz1N8sNvtQbYNe9bDfCnSFxcPs3ZPfaeDzNc9rWorxw4piBvEpuKvWL8dPSJxcPu
 
 	BCH: 1Po5XaiwZg8iWDjZDwoNU7M56DpxRmkmed
-
+_____
 
 ***Revasz,* 2018**
-
