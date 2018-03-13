@@ -1,11 +1,17 @@
-#yiimp - yaamp fork
+[![Build Status](https://travis-ci.org/Revasz/yiimp.svg?branch=AllBranchesMerged)](https://travis-ci.org/Revasz/yiimp)
 
-Required:
+***"yiimp"*** - crypto-mining-pool-framework.<br/>
+Forked from [*"yaamp"*](https://github.com/globalzon/yaamp) and based on the [*"yii-framework"*](http://www.yiiframework.com/).
 
-	linux, mysql, php, memcached, a webserver (lighttpd or nginx recommended)
+Originally developed by [*"globalzon"*](https://github.com/globalzon/yaamp), now maintained and further enhanced by [*"tpruvot"*](https://github.com/tpruvot/yiimp/tree/next)<br/>and various users from [*"GitHub"*](https://github.com/).
+_____
 
+**Required:**
 
-Config for nginx:
+	"Linux", "MySQL/MariaDB", "php7.0+", "Memcached", a web-server ("Lighttpd" or "Nginx" recommended).
+_____
+
+**Basic configuration for *"Nginx"*:**
 
 	location / {
 		try_files $uri @rewrite;
@@ -16,24 +22,24 @@ Config for nginx:
 	}
 
 	location ~ \.php$ {
-		fastcgi_pass unix:/var/run/php5-fpm.sock;
+		fastcgi_pass unix:/var/run/php7.0-fpm.sock;
 		fastcgi_index index.php;
 		include fastcgi_params;
 	}
+_____
 
-
-If you use apache, it should be something like that (already set in web/.htaccess):
+**If you use *"Apache"*, it should look something like this. (Already set in "web/.htaccess"):**
 
 	RewriteEngine on
 
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteRule ^(.*) index.php?r=$1 [QSA]
+_____
 
+**If you use *"Lighttpd"*, use the following, basic, configuration:**
 
-If you use lighttpd, use the following config:
-
-	$HTTP["host"] =~ "yiimp.ccminer.org" {
-	        server.document-root = "/var/yaamp/web"
+	$HTTP["host"] =~ "YourServerName" {
+	        server.document-root = "/var/web"
 	        url.rewrite-if-not-file = (
 			"^(.*)/([0-9]+)$" => "index.php?r=$1&id=$2",
 			"^(.*)\?(.*)" => "index.php?r=$1&$2",
@@ -43,54 +49,73 @@ If you use lighttpd, use the following config:
 
 		url.access-deny = ( "~", ".dat", ".log" )
 	}
+_____
 
-
-For the database, import the initial dump present in the sql/ folder
+For the database, import the initial dump present in the *"sql/"* folder.
 
 Then, apply the migration scripts to be in sync with the current git, they are sorted by date of change.
 
-Your database need at least 2 users, one for the web site (php) and one for the stratum connections (password set in config/algo.conf).
+Your database need at least 2 users, one for the web site (*"php7.0+"*)<br/>
+and one for the *"stratum"* connections.<br/>
+(password set in *"config/algo.conf"*)
 
+The recommended install folder for the stratum engine is *"/var/stratum."*<br/>
+Copy all the *".conf"* files, *"run.sh"*, the *"stratum"* binary<br/>
+and the *"blocknotify"* binary to this folder.
 
+Some scripts are expecting the web folder to be *"/var/web"*.<br/>
+You can use directory *"symlinks"*.
+_____
 
-The recommended install folder for the stratum engine is /var/stratum. Copy all the .conf files, run.sh, the stratum binary and the blocknotify binary to this folder. 
+**Add your exchange *"API"* public and secret keys in these two separated files:**
 
-Some scripts are expecting the web folder to be /var/web. You can use directory symlinks...
+	"/etc/yiimp/keys.php" - Fixed path in code.
+	"web/serverconfig.php" - Use sample as basic configuration.
 
+You can find sample configuration files in<br/>
+*"web/serverconfig.sample.php"*<br/>
+and<br/>
+*"web/keys.sample.php"*.
 
-Add your exchange API public and secret keys in these two separated files:
+This web application includes some command line tools, add *"bin/"* folder to your *"PATH"*<br/>
+and type *"yiimp"* to list them, *"yiimp checkup"* can help to test your initial setup.<br/>
+Future scripts and maybe the *"cron"* jobs will then use this *"yiic"* interface.
+_____
 
-	/etc/yiimp/keys.php - fixed path in code
-	web/serverconfig.php - use sample as base...
+**You need at least three backend shells (in *"screen"*) running these scripts:**
 
-You can find sample config files in web/serverconfig.sample.php and web/keys.sample.php
+	"web/main.sh"
+	"web/loop2.sh"
+	"web/block.sh"
+_____
 
-This web application includes some command line tools, add bin/ folder to your path and type "yiimp" to list them, "yiimp checkup" can help to test your initial setup.
-Future scripts and maybe the "cron" jobs will then use this yiic console interface.
+**Start one *"stratum"* per algorithm using the *"run.sh2"* script with the algorithm as parameter.<br/>
+For example, for *"x11"*:**
 
-You need at least three backend shells (in screen) running these scripts:
+	"run.sh x11"
 
-	web/main.sh
-	web/loop2.sh
-	web/block.sh
+Edit each *".conf"* file with proper values.
 
-Start one stratum per algo using the run.sh script with the algo as parameter. For example, for x11:
+Look at *"rc.local"*, it starts all three backend shells and all *"stratum"* processes.<br/>
+Copy it to the *"/etc"* folder so that all *"screen-shells"* are started on (re)boot.
+_____
 
-	run.sh x11
-
-Edit each .conf file with proper values.
-
-Look at rc.local, it starts all three backend shells and all stratum processes. Copy it to the /etc folder so that all screen shells are started at boot up.
-
-All your coin's config files need to blocknotify their corresponding stratum using something like:
+**All your *"coin's"* configuration files need to *"blocknotify"*<br/>
+their corresponding *"stratum"* using something like this:**
 
 	blocknotify=blocknotify yaamp.com:port coinid %s
 
-On the website, go to http://server.com/site/adminRights to login as admin. You have to change it to something different in the code (web/yaamp/modules/site/SiteController.php). A real admin login may be added later, but you can setup a password authentification with your web server, sample for lighttpd:
+On your, new *"yiimp"*, website, go to *"http://yourserver.any/site/adminRights"* to login as administrator.<br/>
+You have to change it to something different in the code (*"web/yaamp/modules/site/SiteController.php"*).<br/>
+A real *"administrator"* login may be added later, but you can setup a password authentication with your web server.
+_____
+
+**Sample for *"Lighttpd"*:**
 
 	htpasswd -c /etc/yiimp/admin.htpasswd <adminuser>
+_____
 
-and in the lighttpd config file:
+**and in the *"Lighttpd"* configuration file:**
 
 	# Admin access
 	$HTTP["url"] =~ "^/site/adminRights" {
@@ -104,28 +129,53 @@ and in the lighttpd config file:
 	                )
 	        )
 	}
+_____
 
-And finally remove the IP filter check in SiteController.php
+Finally, remove the *"IP-filter-check"* in *"/var/web/yaamp/modules/site/SiteController.php"*.<br/>
 
+There are logs generated in the *"/var/stratum"* folder and *"/var/log/stratum/debug.log"* for the *"php7.0+"* log.
+_____
 
+**CREDITS:**
 
-There are logs generated in the /var/stratum folder and /var/log/stratum/debug.log for the php log.
+Thanks to [*"globalzon"*](https://github.com/globalzon) for the release of the [*"yaamp-sourcecode"*](https://github.com/globalzon/yaamp).<br/>
 
-More instructions coming as needed.
+Thanks to [*"tpruvot"*](https://github.com/tpruvot) for developing and maintaining the [*"yiimp-repository"*](https://github.com/tpruvot/yiimp).<br/>
 
+For my *"fork"*, I have used some code, that I found useful, from the following users/repositories:<br/>
+(In no particular order)
+	
+https://github.com/crackfoo/yiimp
+		
+https://github.com/Tristian/yiimp
+		
+https://github.com/AlmazDelDiablo/yiimp
+		
+https://github.com/Infernoman/yiimp
+		
+https://github.com/AltMinerNet/yiimp
+		
+https://github.com/Jaerin/yiimp
+		
+https://github.com/fastman/yiimp
+		
+https://github.com/phm87/yiimp
+		
+So, thanks to them too.
 
-There a lot of unused code in the php branch. Lot come from other projects I worked on and I've been lazy to clean it up before to integrate it to yaamp. It's mostly based on the Yii framework which implements a lightweight MVC.
+You can support this project by donating to [*"tpruvot"*](https://github.com/tpruvot):
 
-	http://www.yiiframework.com/
+	BTC: 1Auhps1mHZQpoX4mCcVL8odU81VakZQ6dR
+	
+and/or [*"Revasz"*](https://github.com/Revasz) (That's me.)
 
+	BTC: 1i6yhynkkaDN2Y1RiNoZRxcQkEELdePUV
+ 
+	ETH: 0x222eD19EAA80eE530B55b3a8394cF841DFb41Af6
 
-Credits:
+	XMR: 4AbuFAvg6wUKxH4uZafgcyJuUkksxiZBz1N8sNvtQbYNe9bDfCnSFxcPs3ZPfaeDzNc9rWorxw4piBvEpuKvWL8dPSJxcPu
 
-Thanks to globalzon to have released the initial Yaamp source code.
+	BCH: 1Po5XaiwZg8iWDjZDwoNU7M56DpxRmkmed
+_____
 
---
-
-You can support this project donating to tpruvot :
-
-BTC : 1Auhps1mHZQpoX4mCcVL8odU81VakZQ6dR
-
+***Revasz,* 2018**
