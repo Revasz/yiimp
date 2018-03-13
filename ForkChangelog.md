@@ -198,12 +198,17 @@ _____
 
 	Minor change/Add:
 
-		Travis-ci configuration for build checks.
+		Travis-CI configuration for build checks.
+		+
+		Refactor "README.md"
+		+
+		Add "ForkChangelog.md"
 
 		Changed files:
-				"README.md"
 				".travis.yml"
-				
+				"README.md"
+				"ForkChangelog.md"
+
 _____
 
 
