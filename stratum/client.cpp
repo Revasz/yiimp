@@ -639,7 +639,7 @@ void *client_thread(void *p)
 	if (g_debuglog_client) {
 		debuglog("client terminate\n");
 	}
-	if(!client || client->deleted) {
+	if(!client) {
 		pthread_exit(NULL);
 	}
 
@@ -657,12 +657,12 @@ void *client_thread(void *p)
 			db_clear_worker(g_db, client);
 			CommonUnlock(&g_db_mutex);
 		}
+		object_delete(client);
 	} else {
 		// only clients sockets in g_list_client are purged (if marked deleted)
 		socket_close(client->sock);
+		delete client;
 	}
-
-	object_delete(client);
 
 	pthread_exit(NULL);
 }
