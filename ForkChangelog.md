@@ -1,20 +1,20 @@
 [![Build Status](https://travis-ci.org/Revasz/yiimp.svg?branch=AllBranchesMerged)](https://travis-ci.org/Revasz/yiimp)
 
-As of march, 2018 this fork is **100% compatible** with [*"tpruvot's yiimp"*](https://github.com/tpruvot/yiimp/tree/next).
+As of march, 2018 this fork is **100% compatible** with [*tpruvot's yiimp*](https://github.com/tpruvot/yiimp/tree/next).
 
 
-This means, if you don't want to use all changes, that I made, you can fork from [*"tpruvot"*](https://github.com/tpruvot/yiimp/tree/next)<br/>
-and apply only the changes from my corresponding branches per pull request.
+This means, if you don't want to use all changes, you can fork from [*tpruvot*](https://github.com/tpruvot/yiimp/tree/next)<br/>
+and merge only the patches you want from the corresponding branches of this fork.
 
 
-Or you can just use one of my branches with the changes you want<br/>
-because they are are *"up-to-date"* with [*"tpruvot's"*](https://github.com/tpruvot/yiimp/tree/next) commits.
+Or you can fork from me and just use one of my branches, with the changes you want, as your default *master*<br/>
+They are all, with some delay, *up-to-date* with [*tpruvot's*](https://github.com/tpruvot/yiimp/tree/next) commits.
 
 
-If you want the *"full-package"*, use this branch [*("AllBranchesMerged")*](https://github.com/Revasz/yiimp/tree/AllBranchesMerged) as your default/master.
+If you want the *full-package*, use [*AllBranchesMerged*](https://github.com/Revasz/yiimp/tree/AllBranchesMerged) as your default *master*.
 
 
-This fork is a *"work-in-progress"* project and can, but doesn't have to, contain untested code from time to time.<br/>
+This fork is a *work-in-progress* project and can, but doesn't have to, contain untested code from time to time.<br/>
 Use with caution.
 
 
@@ -27,8 +27,8 @@ _____
 
 		Payments: Prevent 9 decimals on failed payments.
 
-		Changed files:
-				"web/yaamp/core/backend/payment.php"
+		Changed file:
+				/web/yaamp/core/backend/payment.php
 
 
 **Forked from:**
@@ -40,11 +40,11 @@ _____
 
 	Fix:
 
-		Fixed an issue where the "AverageIncrement" function could return 80%
+		Fixed an issue where the AverageIncrement function could return 80%
 		of the actual value when the function receives a 0 result from a market.
 
-		Changed files:
-				"web/yaamp/core/backend/markets.php"
+		Changed file:
+				/web/yaamp/core/backend/markets.php
 
 
 **Forked from:**
@@ -56,11 +56,11 @@ _____
 	Fix:
 
 		Late Transactions.
-		All coins including ones with sell on bid shouldn't send to exchanges with late transactions.
-		Update "lastsent" after a valid transaction not before.
+		All coins, including ones with sell on bid, shouldn't send late transactions to exchanges.
+		Update lastsent after a valid transaction and not before.
 
-		Changed files:
-				"web/yaamp/core/backend/sell.php"
+		Changed file:
+				/web/yaamp/core/backend/sell.php
 
 
 **Forked from:**
@@ -72,10 +72,10 @@ _____
 
 	Add:
 
-		Stratum: optional alert when stratum starts/restarts.
+		Stratum: Optional alert when stratum starts/restarts.
 
-		Changed files:
-				stratum/config/run.sh"
+		Changed file:
+				/stratum/config/run.sh
 
 
 **Forked from:**
@@ -90,9 +90,9 @@ _____
 		Per user fees.
 
 		Changed files:  
-				"web/serverconfig.sample.php"
-				"web/yaamp/core/backend/blocks.php"
-				"web/yaamp/core/functions/yaamp.php"
+				/web/serverconfig.sample.php
+				/web/yaamp/core/backend/blocks.php
+				/web/yaamp/core/functions/yaamp.php
 
 
 **Additional changes:** [PR #13](https://github.com/Revasz/yiimp/pull/13/commits/8fba1184f74af8db4f6b030830d000f47ae4c195)
@@ -106,18 +106,18 @@ _____
 	
 	Enhancement:
 
-		Stats: a little refactoring, code style and fix for showing empty graphs.
+		Stats: A little refactoring, code style and fix for showing empty graphs.
 
 		Changed files:
-				"web/yaamp/modules/stats/graph_results_1.php"
-				"web/yaamp/modules/stats/graph_results_2.php"
-				"web/yaamp/modules/stats/graph_results_3.php"
-				"web/yaamp/modules/stats/graph_results_4.php"
-				"web/yaamp/modules/stats/graph_results_5.php"
-				"web/yaamp/modules/stats/graph_results_6.php"
-				"web/yaamp/modules/stats/graph_results_7.php"
-				"web/yaamp/modules/stats/graph_results_8.php"
-				"web/yaamp/modules/stats/graph_results_9.php"
+				/web/yaamp/modules/stats/graph_results_1.php
+				/web/yaamp/modules/stats/graph_results_2.php
+				/web/yaamp/modules/stats/graph_results_3.php
+				/web/yaamp/modules/stats/graph_results_4.php
+				/web/yaamp/modules/stats/graph_results_5.php
+				/web/yaamp/modules/stats/graph_results_6.php
+				/web/yaamp/modules/stats/graph_results_7.php
+				/web/yaamp/modules/stats/graph_results_8.php
+				/web/yaamp/modules/stats/graph_results_9.php
 
 
 **Forked from:**
@@ -129,21 +129,24 @@ _____
 	
 	Enhancement:
 
-		Renting: html 4 to 5 + redirection fix + display only algorithm with coins +
-		"YAAMP_RENTING_MIN_BALANCE" in "serverconfig.php".
+		Renting: 
+				  HTML 4 to 5.
+				+ Redirection fix.
+				+ Display only algorithm with coins.
+				+ YAAMP_RENTING_MIN_BALANCE in serverconfig.php.
 
 		Changed files:
-				"web/serverconfig.sample.php"
-				"web/yaamp/defaultconfig.php"
-				"web/yaamp/modules/renting/RentingController.php"
-				"web/yaamp/modules/renting/admin.php"
-				"web/yaamp/modules/renting/all_orders_results.php"
-				"web/yaamp/modules/renting/balance_results.php"
-				"web/yaamp/modules/renting/index.php"
-				"web/yaamp/modules/renting/login.php"
-				"web/yaamp/modules/renting/orders_results.php"
-				"web/yaamp/modules/renting/settings.php"
-				"web/yaamp/modules/renting/status_results.php"
+				/web/serverconfig.sample.php
+				/web/yaamp/defaultconfig.php
+				/web/yaamp/modules/renting/RentingController.php
+				/web/yaamp/modules/renting/admin.php
+				/web/yaamp/modules/renting/all_orders_results.php
+				/web/yaamp/modules/renting/balance_results.php
+				/web/yaamp/modules/renting/index.php
+				/web/yaamp/modules/renting/login.php
+				/web/yaamp/modules/renting/orders_results.php
+				/web/yaamp/modules/renting/settings.php
+				/web/yaamp/modules/renting/status_results.php
 
 
 **Forked from:**
@@ -157,9 +160,8 @@ _____
 		
 		Reserved balances.
 
-		Changed files:
-
-				web/yaamp/core/backend/sell.php"
+		Changed file:
+				/web/yaamp/core/backend/sell.php
 
 
 **Forked from:**
@@ -171,12 +173,12 @@ _____
 	
 	Minor change:
 
-		Stratum: sync changes from "json-parser", prevent delete on "NULL" share.
+		Stratum: sync changes from json-parser, prevent delete on NULL share.
 
 		Changed files:
-				"stratum/json.cpp"
-				"stratum/json.h"
-				"stratum/share.h"
+				/stratum/json.cpp
+				/stratum/json.h
+				/stratum/share.h
 
 
 **Forked from:**
@@ -188,26 +190,24 @@ _____
 	
 	Minor change:
 
-		Order algorithms alphabetical in "yaamp.php"
+		Order algorithms alphabetical in yaamp.php.
 
-		Changed files:
-				"web/yaamp/core/functions/yaamp.php"
+		Changed file:
+				/web/yaamp/core/functions/yaamp.php
 
 _____
 
 
 	Minor change/Add:
 
-		Travis-CI configuration for build checks.
-		+
-		Refactor "README.md"
-		+
-		Add "ForkChangelog.md"
+		  Travis-CI configuration for build checks.
+		+ README.md formatting
+		+ Add ForkChangelog.md
 
 		Changed files:
-				".travis.yml"
-				"README.md"
-				"ForkChangelog.md"
+				yiimp/.travis.yml
+				yiimp/README.md
+				yiimp/ForkChangelog.md
 
 _____
 
